@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>tester3</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery.validate.js" type="text/javascript"></script>
+
+        <style>
+
+            #blah { 
+                border: 10px solid transparent;
+                padding: 15px;
+                border-image-source: url(border.png);
+                border-image-repeat: round;
+                border-image-slice: 30;
+                border-image-width: 10px;        
+            }
+        </style>
+
+        <script>
+
+            // When the browser is ready...
+            $(function () {
+                
+                $(el).fileValidator({
+                    onValidation: function (files) { /* Called once before validating files */
+                    },
+                    onInvalid: function (validationType, file) { /* Called once for each invalid file */
+                    },
+                    maxSize: '2m', //optional
+                    type: 'image' //optional
+                });
+
+                // Setup form validation on the #register-form element
+                $("#register-form").validate({
+                    // Specify the validation rules
+                    rules: {
+                        firstname: "required",
+                        lastname: "required",
+                        email: {
+                            required: true,
+                            email: true
+                        },
+
+                        agree: "required"
+                    },
+                    submitHandler: function (form) {
+                        form.submit();
+                    }
+                });
+            });
+        </script>
+    <body>
+        <div>TESTING FOR NETBEANS IDE </div>
+
+        <h2>Register here</h2>
+
+        <!--  The form that will be parsed by jQuery before submit  -->
+        <form action="" method="post" id="register-form">
+
+            <fieldset>
+                <legend>Login Info</legend>
+                First Name
+                <input type="text" id="firstname" style="margin-left:10px;" name="firstname"/><br /><br />
+                <!--<div class="label">Last Name</div>-->
+
+                Last Name 
+                <input type="text" id="lastname" style="margin-left:12px;" name="lastname" /><br /><br />
+                <!--<div class="label">Email</div>-->
+                Email Id 
+                <input type="text" id="email" style="margin-left:25px;" name="email" /><br /><br />
+                <!--<div class="label">Password</div>-->
+
+                <input type="reset" name="reset" style="margin-left:30px;" id="resetbtn" class="resetbtn" value="Reset" />
+                <!--<div style="margin-left:100px;">-->
+                <input class="submit" id="submitbutton" type="button" onClick="infoUpdate();" name="submit" style="margin-left:100px;" value="Submit" /><br /><br />
+
+                <input type='file' id="imgInp" onchange="readURL(this);" /><br />
+                <img id="imgid" src="#" width="120" height="150" alt="your image" />
+
+            </fieldset>
+
+        </form>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Details</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <table id="detailsTable"
+                           class="table table-bordered
+                           table-condensed table-striped">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email Id</th>
+                                <th>Delete</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script>
+// uploading image
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        document.getElementById('imgid').src = e.target.result;
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+
+
+//            function infoAdd() {
+//                console.log("here")
+//
+//                // Append info to the table
+//                $("#detailsTable tbody").append(
+//                        "<tr>" +
+//                        "<td>Hari</td>" +
+//                        "<td>Reddy</td>" +
+//                        "<td>hkrishna@gmail.com</td>" +
+//                        "</tr>"
+//                        );
+//                $("#detailsTable tbody").append(
+//                        "<tr>" +
+//                        "<td>Rohan</td>" +
+//                        "<td>Sindhiya</td>" +
+//                        "<td>rohansindhi@gmail.com</td>" +
+//                        "</tr>"
+//                        );
+//            }
+
+            function infoUpdate() {
+                if ($("#submitbutton").val() === "Update") {
+                    infoUpdateInTable();
+                } else {
+                    infoAddToTable();
+                }
+                // Clear form fields
+                formClear();
+                // Focus to product name field
+                $("#firstname").focus();
+            }
+
+            function infoUpdateInTable() {
+                // Add changed info to table
+                $(_row).after(infoBuildTableRow());
+                // Remove old info row
+                $(_row).remove();
+                // Clear form fields
+                formClear();
+                // Change Update Button Text
+                $("#submitbutton").prop('value', 'Submit');
+            }
+
+            function infoAddToTable() {
+                // First check if a <tbody> tag exists, add one if not
+                if ($("#detailsTable tbody").length == 0) {
+                    $("#detailsTable").append("<tbody></tbody>");
+                }
+
+                // Append product to the table
+                $("#detailsTable tbody").append(
+                        "<tr>" +
+                        "<td>" + $("#firstname").val() + "</td>" +
+                        "<td>" + $("#lastname").val() + "</td>" +
+                        "<td>" + $("#email").val() + "</td>" +
+                        "<td>" +
+                        "<button type='button' " +
+                        "onclick='infoDelete(this);' " +
+                        "class='btn btn-default'>" +
+                        "<span class='glyphicon  glyphicon - remove' />" +
+                        "X" +
+                        "</button>" +
+                        "<button type='button' " +
+                        "onclick='infoDisplay(this);' " +
+                        "class='btn btn-default'>" +
+                        "<span class='glyphicon glyphicon-edit' />" +
+                        "Edit" +
+                        "</button>" +
+                        "</td>" +
+                        "</tr>"
+                        );
+            }
+
+
+            function infoDelete(ctl) {
+                $(ctl).parents("tr").remove();
+            }
+
+            function infoDisplay(ctl) {
+                _row = $(ctl).parents("tr");
+                var cols = _row.children("td");
+
+                $("#firstname").val($(cols[0]).text());
+                $("#lastname").val($(cols[1]).text());
+                $("#email").val($(cols[2]).text());
+                // Change Update Button Text
+                $("#submitbutton").prop('value', 'Update');
+            }
+
+            function formClear() {
+                $("#firstname").val("");
+                $("#lastname").val("");
+                $("#email").val("");
+            }
+
+            $(document).ready(function () {
+                infoAdd();
+            });
+
+// Current info being edited
+            var _row = null;
+            function infoBuildTableRow() {
+                var ret =
+                        "<tr>" +
+                        "<td>" + $("#firstname").val() + "</td>" +
+                        "<td>" + $("#lastname").val() + "</td>" +
+                        "<td>" + $("#email").val() + "</td>" +
+                        "<td>" +
+                        "<button type='button' " +
+                        "onclick='infoDelete(this);' " +
+                        "class='btn btn-default'>" +
+                        "<span class='glyphicon  glyphicon - remove' />" +
+                        "X" +
+                        "</button>" +
+                        "<button type='button' " +
+                        "onclick='infoDisplay(this);' " +
+                        "class='btn btn-default'>" +
+                        "<span class='glyphicon glyphicon-edit' />" +
+                        "Edit" +
+                        "</button>" +
+                        "</td>" +
+                        "</tr>"
+
+                return ret;
+            }
+
+        </script>
+        <script>
+            console.log($('#email').val());
+        </script>
+    </body>
+</html>

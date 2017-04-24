@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Sign Up</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            legend{
+                display: block;
+            }
+            body {
+                background: cyan;
+            }
+
+            select{
+                color: blue;
+            }
+            h2 {
+                margin: 0 0 30px 0;
+                text-align: center;
+            }
+
+            fieldset {
+                margin-bottom: 30px;
+                border: none;
+            }
+
+            legend {
+                font-size: 1.4em;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+            form {
+                max-width: 320px;
+                margin: 10px auto;
+                padding: 10px 20px;
+                background: #f4f7f8;
+                border-radius: 8px;
+            }
+
+            input[type="radio"],
+            input[type="checkbox"] {
+                margin: 0 4px 8px 0;
+            }
+            table{
+                text-align: center;
+            }
+
+        </style>
+        <!-- Load jQuery and the validate plugin -->
+
+        <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery.validate.js" type="text/javascript"></script>
+
+
+        <!-- jQuery Form Validation code -->
+        <script>
+
+
+
+            // When the browser is ready...
+            $(function () {
+
+                // Setup form validation on the #register-form element
+                $("#register-form").validate({
+                    // Specify the validation rules
+                    rules: {
+                        firstname: "required",
+                        lastname: "required",
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        password: {
+                            required: true,
+                            minlength: 5
+                        },
+                        mySelect: {
+                            required: {
+                                depends: function (element) {
+                                    if ('Select City' == $('#mySelect').val()) {
+                                        //Set predefined value to blank.
+                                        $('#mySelect').val('');
+                                    }
+                                    return true;
+                                }
+                            }
+                        },
+                        agree: "required"
+                    },
+                    messages: {
+                        mySelect: "ddflvdfv"
+                    },
+                    submitHandler: function (form) {
+                        form.submit();
+                    }
+
+                });
+            });
+        </script>
+
+    </head>
+
+    <body>
+        <h2>Register here</h2>
+
+        <!--  The form that will be parsed by jQuery before submit  -->
+        <form action="" method="post" id="register-form">
+
+            <fieldset>
+                <legend>Sign up</legend>
+                <!--<div class="label">First Name</div>-->
+                First Name 
+                <input type="text" id="firstname" style="margin-left:10px;" name="firstname" /><br /><br />
+                <!--<div class="label">Last Name</div>-->
+                Last Name 
+                <input type="text" id="lastname" style="margin-left:12px;" name="lastname" /><br /><br />
+                <!--<div class="label">Email</div>-->
+                Email Id 
+                <input type="text" id="email" style="margin-left:25px;" name="email" /><br /><br />
+                <!--<div class="label">Password</div>-->
+                Password 
+                <input type="password" id="password" style="margin-left:20px;" name="password" /><br /><br />
+                <form id="myForm">
+                    Gender 
+                    <input type="radio" id="male" style="margin-left:30px;" name="radio" /><label for="male">Male</label>
+                    <input type="radio" id="female" name="radio" checked="checked" /><label for="female">Female</label>
+                    <input type="radio" id="other" name="radio" /><label for="other">Other</label><br /><br />
+                </form>
+
+                <form id="myForm">
+                    Age 
+                    <input type="radio" id="male" style="margin-left:50px;" name="radio" /><label for="male">Under-19</label>
+                    <input type="radio" id="female" name="radio" checked="checked" /><label for="female">Above-19</label><br /><br />
+                </form>
+
+                <label>Interests</label><br>
+                <input type="checkbox" id="development" value="interest_development" name="user_interest"><label class="light" for="development">Development</label><br>
+                <input type="checkbox" id="design" value="interest_design" name="user_interest"><label class="light" for="design">Design</label><br>
+                <input type="checkbox" id="business" value="interest_business" name="user_interest"><label class="light" for="business">Business</label><br><br>
+
+
+                <label>Select City</label>
+                <select id="mySelect" style="margin-left:20px;">
+                    <option>Vizag</option>
+                    <option>Hyderabad</option>
+                    <option>Delhi</option>
+                    <option>Singapore</option>
+                    <option>Maxico</option>
+                </select><br /><br /><br />
+
+
+                <input type="reset" name="reset" style="margin-left:30px;" id="resetbtn" class="resetbtn" value="Reset" />
+                <!--<div style="margin-left:100px;">-->
+                <input class="submit" id="submitbutton" type="button" onClick="infoUpdate();" name="submit" style="margin-left:100px;" value="Submit" />
+                <!--<input class="submit" id="update" type="button" onClick="infoUpdate();" name="update" value="Update" />-->
+
+
+                <!--                <input type='button' value='Add' id='update'>
+                                $("#submit").prop('value', 'Update');
+                                $("#submit").value('Update');-->
+
+            </fieldset>
+
+        </form>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Details</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <table id="detailsTable"
+                           class="table table-bordered
+                           table-condensed table-striped">
+                        <thead>
+                            <tr>
+                                <th>FirstName</th>
+                                <th>LastName</th>
+                                <th>Email</th>
+                                <th>Gender</th>
+                                <th>City</th>
+                                <th>Delete</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            function infoUpdate() {
+
+                if ($("#submitbutton").val() === "Update") {
+                    //                    console.log("Working");
+                    infoUpdateInTable();
+                } else {
+                    infoAddToTable();
+                }
+                // Clear form fields
+                formClear();
+                // Focus to product name field
+                $("#firstname").focus();
+            }
+
+            function infoUpdateInTable() {
+                // Add changed info to table
+                $(_row).after(infoBuildTableRow());
+                // Remove old info row
+                $(_row).remove();
+                // Clear form fields
+                formClear();
+                // Change Update Button Text
+                $("#update").text("Submit");
+            }
+
+            function infoAddToTable() {
+                var idVal;
+                $("input[type='radio']:checked").each(function () {
+                    idVal = $(this).attr("id");
+                });
+                // First check if a <tbody> tag exists, add one if not
+                if ($("#detailsTable tbody").length == 0) {
+                    $("#detailsTable").append("<tbody></tbody>");
+                }
+                // Append product to the table
+                $("#detailsTable tbody").append(
+                        "<tr>" +
+                        "<td>" + $("#firstname").val() + "</td>" +
+                        "<td>" + $("#lastname").val() + "</td>" +
+                        "<td>" + $("#email").val() + "</td>" +
+                        "<td>" + $("label[for='" + idVal + "']").text() + "</td>" +
+                        "<td>" + $("#mySelect").val() + "</td>" +
+                        "<td>" +
+                        "<button type='button' " +
+                        "onclick='infoDelete(this);' " +
+                        "class='btn btn-default'>" +
+                        "<span class='glyphicon  glyphicon - remove' />" +
+                        "Delete" +
+                        "</button>" +
+                        "<button type='button' " +
+                        //                        "id='" + update + "'>" +
+                        "onclick='infoDisplay(this);' " +
+                        "class='btn btn-default'>" +
+                        //                        "data-id='" + update + "'>" +
+                        "<span class='glyphicon glyphicon-edit' />" +
+                        "Edit" +
+                        "</button>" +
+                        "</td>" +
+                        "</tr>"
+                        );
+            }
+
+
+            function infoDelete(ctl) {
+                $(ctl).parents("tr").remove();
+            }
+
+            function formClear() {
+                $("#firstname").val("");
+                $("#lastname").val("");
+                $("#email").val("");
+                $("#password").val("");
+                $("#mySelect").val("");
+            }
+
+
+
+            // Current product being edited
+            var _row = null;
+
+            function infoDisplay(ctl) {
+                var idVal;
+                $("input[type='radio']:checked").each(function () {
+                    idVal = $(this).attr("id");
+                });
+
+                _row = $(ctl).parents("tr");
+                var cols = _row.children("td");
+
+                $("#firstname").val($(cols[0]).text());
+                $("#lastname").val($(cols[1]).text());
+                $("#email").val($(cols[2]).text());
+                $("#password").val($(cols[3]).text());
+                $("label[for='" + idVal + "']").val($(cols[4]).text());
+                $("#mySelect").val($(cols[5]).text());
+
+                // Change Update Button Text
+                //                $("#submit").text("Update");
+                $("#submitbutton").prop('value', 'Update');
+            }
+
+
+            function infoUpdateInTable() {
+                // Add changed product to table
+                $(_row).after(infoBuildTableRow());
+                // Remove old info row
+                $(_row).remove();
+                // Clear form fields
+                formClear();
+                // Change Update Button Text
+                $("#submitbutton").prop('value', 'Submit');
+            }
+
+            // Current info being edited
+            var _row = null;
+
+            function infoBuildTableRow() {
+                var idVal;
+                $("input[type='radio']:checked").each(function () {
+                    idVal = $(this).attr("id");
+                });
+
+                var ret =
+                        "<tr>" +
+                        "<td>" + $("#firstname").val() + "</td>" +
+                        "<td>" + $("#lastname").val() + "</td>" +
+                        "<td>" + $("#email").val() + "</td>" +
+                        "<td>" + $("label[for='" + idVal + "']").text() + "</td>" +
+                        "<td>" + $("#mySelect").val() + "</td>" +
+                        "<td>" +
+                        "<button type='button' " +
+                        "onclick='infoDelete(this);' " +
+                        "class='btn btn-default'>" +
+                        //                        "data-id='" + id + "'>" +
+                        "<span class='glyphicon  glyphicon - remove' />" +
+                        "Delete" +
+                        "<button type='button' " +
+                        //                        "id='" + update + "'>" +
+                        "onclick='infoDisplay(this);' " +
+                        //                        "style='margin-left:250px; ' " +
+                        "class='btn btn-default'>" +
+                        //                        "data-id='" + id + "'>" +
+                        "<span class='glyphicon glyphicon-edit' />" +
+                        "Edit" +
+                        "</button>" +
+                        "</td>" +
+                        "</tr>"
+
+                return ret;
+            }
+
+        </script>
+        <script>
+            console.log($('#email').val());
+        </script>
+    </body>
+</html>
+
